@@ -4,6 +4,7 @@ This configuration creates an Azure resource group, virtual network and subnet, 
 
 The load balancer currently has one VM backend. It provides a stable public endpoint, but a single VM is not highly available.
 
+Refer to this repo as well: https://github.com/dsahoo165/Terraform/tree/main
 ## Prerequisites
 
 - Terraform 1.5 or later
