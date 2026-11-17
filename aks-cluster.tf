@@ -6,7 +6,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   kubernetes_version  = data.azurerm_kubernetes_service_versions.current.latest_version
   node_resource_group = "${azurerm_resource_group.aks_rg.name}-nrg"
 
-
+  #This is required to fix the issue. Otherwise tf apply will not run
   node_provisioning_profile {
     mode = "Manual"
   }
