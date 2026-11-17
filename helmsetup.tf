@@ -27,6 +27,15 @@ resource "helm_release" "argocd" {
   namespace  = "argocd"
 
   create_namespace = true
+  
+  #This is required to run the argocd without https through nginx. 
+  #If ssl is setup is there then it can commented.
+  set = [
+    {
+      name  = "configs.params.server\\.insecure"
+      value = "true"
+    }
+  ]
 
   depends_on = [
     azurerm_kubernetes_cluster.aks_cluster
