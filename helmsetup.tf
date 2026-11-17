@@ -14,6 +14,12 @@ resource "helm_release" "nginx" {
   namespace  = "ingress-nginx"
 
   create_namespace = true
+  set = [    
+    {
+      name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-health-probe-request-path"
+      value = "/healthz"
+    }
+  ]
 
   depends_on = [
     azurerm_kubernetes_cluster.aks_cluster
