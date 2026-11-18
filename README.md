@@ -1,6 +1,28 @@
 # Terraform: Azure Infrastructure Examples
 
-This repository contains separate Terraform examples for an Azure Linux VM and load balancer, an AKS cluster, and Azure Container Instances (ACI). Apply each example from its own directory so its Terraform state is kept separate.
+This repository contains separate Terraform examples for an Azure Linux VM and load balancer, an AKS cluster, Azure Container Instances (ACI), and Azure Container Apps. Apply each example from its own directory so its Terraform state is kept separate.
+
+## Azure Container App learning example
+
+The [`azure_container_app` environment](./environments/azure_container_app) calls a reusable module in [`modules/azure_container_app`](./modules/azure_container_app). It looks up the existing `deepak` ACR in resource group `acr_rg`, creates a user-assigned managed identity with `AcrPull` access, and runs the Flask API image on a public Container App. The app exposes HTTPS ingress and forwards traffic to container port 5000.
+
+Register the required Azure resource providers if needed, then from `environments/azure_container_app` run:
+
+```powershell
+az login
+az provider register --namespace Microsoft.App --wait
+az provider register --namespace Microsoft.OperationalInsights --wait
+terraform init
+terraform validate
+terraform plan
+terraform apply
+```
+
+Terraform outputs the app URL and FQDN. Clean up when finished to avoid ongoing Azure charges:
+
+```powershell
+terraform destroy
+```
 
 ## Azure Container Instance learning example
 
