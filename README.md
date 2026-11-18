@@ -1,4 +1,30 @@
-# Terraform: Azure Linux VM and Load Balancer
+# Terraform: Azure Infrastructure Examples
+
+This repository contains separate Terraform examples for an Azure Linux VM and load balancer, an AKS cluster, and Azure Container Instances (ACI). Apply each example from its own directory so its Terraform state is kept separate.
+
+## Azure Container Instance learning example
+
+The [`azure_container_instance` environment](./environments/azure_container_instance) calls a reusable module in [`modules/azure_container_instance`](./modules/azure_container_instance). It looks up the existing `deepak` ACR in resource group `acr_rg`, creates a user-assigned managed identity with `AcrPull` access, and runs the private Flask API image on a public Linux container group. The example exposes TCP port 5000. ACI is useful for running containers without managing VMs or Kubernetes.
+
+From `environments/azure_container_instance`, authenticate to Azure and run:
+
+```powershell
+az login
+terraform init
+terraform validate
+terraform plan
+terraform apply
+```
+
+Terraform outputs the container group's URL and IP address. Adjust values directly in the environment's `main.tf`. Clean up when finished to avoid ongoing Azure charges:
+
+```powershell
+terraform destroy
+```
+
+The module README describes the example and its configurable inputs.
+
+## Azure Linux VM and Load Balancer
 
 This configuration creates an Azure resource group, virtual network and subnet, one small Ubuntu 22.04 VM, and a Standard public load balancer. The VM has no public IP. HTTP traffic is forwarded to Nginx on the VM, SSH is forwarded through the load balancer and restricted to a caller-supplied CIDR, and a load-balancer outbound rule provides VM internet egress for cloud-init package installation.
 
